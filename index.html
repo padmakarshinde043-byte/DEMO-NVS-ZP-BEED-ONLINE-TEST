@@ -1880,11 +1880,9 @@
     renderDashboard();
   }
 
-  // तत्काळ (Instant) चाचणी सुरू करण्याचे फंक्शन
   async function startExamInstant() {
     if (!currentPendingTest) return;
     
-    // सूचना स्क्रीनवरच राहून लगेच डेटा लोड करणे
     let data = window.preloadedExams[currentPendingTest.id];
     if (!data) {
       try {
