@@ -25,7 +25,7 @@
       --accent: #d97706;
       --danger: #dc2626;
       --success: #16a34a;
-      --bg: #f1f5f9; /* हलका प्रोफेशनल डॅशबोर्ड कलर */
+      --bg: #f1f5f9;
       --card-bg: #ffffff;
       --text: #0f172a;
       --border: #cbd5e1;
@@ -57,12 +57,12 @@
     .card { background: var(--card-bg); border-radius: 16px; padding: 22px; box-shadow: 0 4px 20px rgba(15, 43, 72, 0.06); margin-bottom: 16px; border: 1px solid var(--border); }
 
     .district-warning-box {
-      background: #fffbeb; border: 1.5px solid #fde68a; border-left: 5px solid #d97706; border-radius: 10px;
-      padding: 12px 14px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.5; color: #92400e;
+      background: #fff7ed; border: 1.5px solid #fdba74; border-left: 5px solid #ea580c; border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.5; color: #9a3412;
     }
     .student-bar {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 14px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 16px; border-left: 5px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border);
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); padding: 14px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; border-left: 5px solid var(--success); box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #bbf7d0;
     }
     .student-bar h3 { font-size: 1.15rem; color: var(--primary); font-weight: 800; }
     .student-bar p { font-size: 0.85rem; color: #64748b; }
@@ -73,11 +73,11 @@
       box-shadow: 0 4px 12px rgba(15, 43, 72, 0.2);
     }
     .btn-action {
-      padding: 9px 16px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 0.88rem;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;
+      padding: 10px 22px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; font-size: 0.95rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .btn-start { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
-    .btn-locked { background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0; cursor: not-allowed; }
+    .btn-locked { background: #e2e8f0; color: #64748b; border: 1px solid #cbd5e1; cursor: not-allowed; box-shadow: none; }
     .btn-retry { background: linear-gradient(135deg, #ea580c, #c2410c); color: white; }
     .btn-resume { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; }
     .btn-toggle-admin { color: white; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; margin-left: 8px; }
@@ -88,12 +88,22 @@
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1rem; background: #ffffff; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(26, 74, 117, 0.12); }
 
+    /* प्रत्येक चाचणीच्या टॅबसाठी मध्यवर्ती मांडणी व हलका कलरफुल डिझाईन */
     .test-item {
-      background: linear-gradient(135deg, #ffffff 0%, #fcfdfe 100%); border-radius: 14px; padding: 15px 18px; margin-bottom: 12px; display: flex;
-      justify-content: space-between; align-items: center; border-left: 5px solid #cbd5e1; border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(15, 43, 72, 0.03);
+      border-radius: 16px; padding: 18px; margin-bottom: 14px; display: flex;
+      flex-direction: column; align-items: center; text-align: center; border: 1px solid var(--border);
+      box-shadow: 0 3px 12px rgba(15, 43, 72, 0.04); transition: transform 0.2s;
     }
-    .test-item.unlocked { border-left-color: var(--success); }
+    .test-item:hover { transform: translateY(-2px); }
+
+    /* प्रयत्न बॅजेससाठी आकर्षक डिझाईन */
+    .attempt-badge-container {
+      display: flex; gap: 8px; justify-content: center; align-items: center; margin: 10px 0; flex-wrap: wrap;
+    }
+    .badge-attempt {
+      background: #ffffff; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: #1e293b; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .badge-attempt.done { background: #dcfce7; border-color: #86efac; color: #166534; }
 
     .guideline-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95rem; background: #ffffff; }
     .guideline-table th, .guideline-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: center; }
@@ -103,77 +113,29 @@
     
     .section-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; width: 100%; }
     .section-selector button {
-      width: 100%;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-      border: 2px solid #e2e8f0;
-      padding: 10px 8px;
-      border-radius: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #0f2b48;
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 20px -4px rgba(15, 43, 72, 0.1), 0 4px 6px -2px rgba(15, 43, 72, 0.05);
-      outline: none;
+      width: 100%; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border: 2px solid #e2e8f0; padding: 10px 8px; border-radius: 14px; font-weight: 700; cursor: pointer; color: #0f2b48; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px; box-shadow: 0 8px 20px -4px rgba(15, 43, 72, 0.1); outline: none;
     }
-    .section-selector button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 28px -5px rgba(15, 43, 72, 0.18), 0 6px 10px -4px rgba(15, 43, 72, 0.1);
-      border-color: #3b82f6;
-    }
+    .section-selector button:hover { border-color: #3b82f6; }
     .section-selector button span.sec-sub { font-size: 0.75rem; font-weight: 600; opacity: 0.8; margin-top: 3px; }
     
-    #tab-sec1 { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border-color: #bfdbfe; color: #1e40af; }
-    #tab-sec1.active { background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%); color: white; border-color: #1e3a8a; box-shadow: 0 12px 28px -4px rgba(30, 58, 138, 0.35), 0 0 0 4px rgba(59, 130, 246, 0.25); transform: translateY(-2px); }
+    #tab-sec1.active { background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%); color: white; border-color: #1e3a8a; }
+    #tab-sec2.active { background: linear-gradient(135deg, #701a75 0%, #a21caf 100%); color: white; border-color: #86198f; }
+    #tab-sec3.active { background: linear-gradient(135deg, #14532d 0%, #15803d 100%); color: white; border-color: #166534; }
 
-    #tab-sec2 { background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 100%); border-color: #f5d0fe; color: #86198f; }
-    #tab-sec2.active { background: linear-gradient(135deg, #701a75 0%, #a21caf 100%); color: white; border-color: #86198f; box-shadow: 0 12px 28px -4px rgba(162, 28, 175, 0.35), 0 0 0 4px rgba(232, 121, 249, 0.25); transform: translateY(-2px); }
-
-    #tab-sec3 { background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); border-color: #bbf7d0; color: #166534; }
-    #tab-sec3.active { background: linear-gradient(135deg, #14532d 0%, #15803d 100%); color: white; border-color: #166534; box-shadow: 0 12px 28px -4px rgba(21, 128, 61, 0.35), 0 0 0 4px rgba(74, 222, 128, 0.25); transform: translateY(-2px); }
-
-    #ak-tab-sec1 { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border-color: #bfdbfe; color: #1e40af; }
-    #ak-tab-sec1.active { background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%); color: white; box-shadow: 0 12px 28px -4px rgba(30, 58, 138, 0.35), 0 0 0 4px rgba(59, 130, 246, 0.25); transform: translateY(-2px); }
-
-    #ak-tab-sec2 { background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 100%); border-color: #f5d0fe; color: #86198f; }
-    #ak-tab-sec2.active { background: linear-gradient(135deg, #701a75 0%, #a21caf 100%); color: white; box-shadow: 0 12px 28px -4px rgba(162, 28, 175, 0.35), 0 0 0 4px rgba(232, 121, 249, 0.25); transform: translateY(-2px); }
-
-    #ak-tab-sec3 { background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); border-color: #bbf7d0; color: #166534; }
-    #ak-tab-sec3.active { background: linear-gradient(135deg, #14532d 0%, #15803d 100%); color: white; box-shadow: 0 12px 28px -4px rgba(21, 128, 61, 0.35), 0 0 0 4px rgba(74, 222, 128, 0.25); transform: translateY(-2px); }
-    
-    .section-selector button.active span.sec-sub { color: #fef08a; opacity: 1; }
-    
     .question-card { background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
-    
-    .q-badge-box {
-      display: inline-block; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;
-      padding: 4px 12px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;
-    }
+    .q-badge-box { display: inline-block; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 4px 12px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px; }
     .q-text-content { font-weight: 700; font-size: 1rem; color: var(--text); line-height: 1.4; margin-bottom: 10px; }
 
     .passage-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 14px; margin-bottom: 14px; font-size: 0.95rem; line-height: 1.65; color: #92400e; }
     
-    .fig-container { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; background: #f8fafc; padding: 10px; border-radius: 12px; align-items: center; justify-content: center; border: 1px dashed #cbd5e1; width: 100%; }
-    .fig-box { 
-      width: 100% !important; max-width: 100% !important; height: auto !important; 
-      min-height: 240px; max-height: 500px; border: 2px solid #cbd5e1; background: #fff; 
-      display: flex; align-items: center; justify-content: center; margin: 0 auto; 
-      border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 8px;
-    }
+    .fig-box { width: 100% !important; max-width: 100% !important; min-height: 240px; max-height: 500px; border: 2px solid #cbd5e1; background: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto; border-radius: 10px; overflow: hidden; padding: 8px; }
     .fig-box img { width: 100% !important; height: auto !important; max-height: 480px; object-fit: contain !important; display: block; }
-    .fig-box svg { width: 100% !important; height: 100% !important; }
     
     .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .opt-label { display: flex; align-items: center; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; background: #fff; font-size: 0.95rem; }
     .opt-label input { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--secondary); }
 
     .exp-box { background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #2563eb; border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: 0.92rem; line-height: 1.5; color: #1e3a8a; }
-    .exp-box b { color: #1d4ed8; }
 
     .section-nav-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1.5px dashed #cbd5e1; }
     .btn-nav-prev { background: #475569; color: white; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; cursor: pointer; }
@@ -196,7 +158,6 @@
     .report-table th { background: #f1f5f9; color: var(--primary); font-weight: 800; }
 
     .ak-correct { background: #ecfdf5 !important; border-color: #34d399 !important; color: #065f46; font-weight: 700; }
-    .ak-wrong { background: #fef2f2 !important; border-color: #f87171 !important; color: #991b1b; font-weight: 700; }
     .ak-student-choice { border: 2px dashed #d97706 !important; }
 
     #exitToast { display: none; position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(15, 43, 72, 0.92); color: #ffffff; padding: 10px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 700; z-index: 3000; border: 1px solid #fbbf24; }
@@ -214,7 +175,7 @@
       .card { padding: 14px 10px; border-radius: 12px; }
       .student-bar { padding: 10px 12px; }
       .student-bar h3 { font-size: 1rem; }
-      .test-item { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 10px; }
+      .test-item { padding: 14px 12px; }
       .exam-topbar { padding: 8px 10px; }
       .section-selector { gap: 6px; }
       .section-selector button { padding: 6px 4px; font-size: 0.8rem; min-height: 52px; }
@@ -784,7 +745,7 @@
 <script>
   const FIREBASE_DB_URL = "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com";
 
-  // कंसातील (2026-27) काढून टाकण्यात आले आहे
+  // कंसातील (2026-27) पूर्णपणे काढून टाकण्यात आले आहे
   const EXAM_SCHEDULE = [
     { id: 1, title: "नवोदय सराव चाचणी क्र. 01", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
     { id: 2, title: "नवोदय सराव चाचणी क्र. 02", dateISO: "2026-11-12", dateMarathi: "12 नोव्हेंबर 2026", file: "test2.json" },
@@ -823,6 +784,25 @@
   let allFirebaseStudents = [];
 
   window.preloadedExams = {};
+
+  // विविध चाचण्यांसाठी हलके आणि आकर्षक पेस्टल कलर (Light Colorful Themes)
+  const TEST_CARD_COLORS = [
+    { bg: '#fef2f2', border: '#fca5a5' }, // हलका लाल
+    { bg: '#fffbeb', border: '#fde047' }, // हलका पिवळा
+    { bg: '#f0fdf4', border: '#86efac' }, // हलका हिरवा
+    { bg: '#eff6ff', border: '#93c5fd' }, // हलका निळा
+    { bg: '#fdf4ff', border: '#f0abfc' }, // हलका गुलाबी/जांभळा
+    { bg: '#fefce8', border: '#fef08a' }, // लेमन
+    { bg: '#f0fdfa', border: '#5eead4' }, // सियान
+    { bg: '#fff1f2', border: '#fda4af' }, // रोझ
+    { bg: '#f8fafc', border: '#cbd5e1' }, // स्लॅट
+    { bg: '#fff7ed', border: '#fdba74' }, // ऑरेंज
+    { bg: '#f3e8ff', border: '#d8b4fe' }, // पर्पल
+    { bg: '#ecffe6', border: '#bdef83' }, // लाईट ग्रीन
+    { bg: '#e0f2fe', border: '#7dd3fc' }, // स्काय
+    { bg: '#fee2e2', border: '#f87171' }, // लाइट रेड
+    { bg: '#fef3c7', border: '#fcd34d' }  // अंबर
+  ];
 
   function makeStudentId(mobile, name) {
     const cleanName = (name || "").trim().toLowerCase().replace(/[^a-z0-9\u0900-\u097F]/g, "_");
@@ -945,10 +925,11 @@
       const parsed = JSON.parse(vault);
       loggedInUser.history = parsed.history || {};
       loggedInUser.attempts = parsed.attempts || {};
+      loggedInUser.attemptHistory = parsed.attemptHistory || {};
       loggedInUser.inProgress = parsed.inProgress || {};
       if (parsed.isTeacher !== undefined) loggedInUser.isTeacher = parsed.isTeacher;
     } else {
-      loggedInUser.history = {}; loggedInUser.attempts = {}; loggedInUser.inProgress = {};
+      loggedInUser.history = {}; loggedInUser.attempts = {}; loggedInUser.attemptHistory = {}; loggedInUser.inProgress = {};
       saveUserVault();
     }
   }
@@ -956,7 +937,7 @@
   function saveUserVault() {
     if (!loggedInUser || !loggedInUser.uid) return;
     localStorage.setItem("jnv_vault_" + loggedInUser.uid, JSON.stringify({
-      history: loggedInUser.history || {}, attempts: loggedInUser.attempts || {}, inProgress: loggedInUser.inProgress || {}, isTeacher: loggedInUser.isTeacher || false
+      history: loggedInUser.history || {}, attempts: loggedInUser.attempts || {}, attemptHistory: loggedInUser.attemptHistory || {}, inProgress: loggedInUser.inProgress || {}, isTeacher: loggedInUser.isTeacher || false
     }));
     localStorage.setItem("jnv_beed_active_user", JSON.stringify(loggedInUser));
   }
@@ -1810,7 +1791,7 @@
     container.innerHTML = "";
     const todayDate = new Date().toISOString().split("T")[0];
 
-    EXAM_SCHEDULE.forEach(item => {
+    EXAM_SCHEDULE.forEach((item, index) => {
       let isAccessible = isUserVip || isUserTeacher || (globalUnlockedTests[item.id] !== undefined ? globalUnlockedTests[item.id] : (todayDate >= item.dateISO));
       const savedScore = loggedInUser.history && loggedInUser.history[item.id];
       const inProg = loggedInUser.inProgress && loggedInUser.inProgress[item.id];
@@ -1818,43 +1799,56 @@
 
       const card = document.createElement("div");
       card.className = "test-item " + (isAccessible ? "unlocked" : "");
+      
+      // प्रत्येक चाचणीच्या टॅबला हलका, युनिक आणि सुंदर रंग देणे (Light Colorful Theme)
+      const colorScheme = TEST_CARD_COLORS[index % TEST_CARD_COLORS.length];
+      card.style.background = colorScheme.bg;
+      card.style.borderColor = colorScheme.border;
 
-      // प्रत्येक चाचणीखाली प्रयत्न १ आणि प्रयत्न २ चे गुण दाखवणे
+      // प्रयत्न १ आणि प्रयत्न २ चे गुण मिळवणे
       let attempt1Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][0] !== undefined) ? loggedInUser.attemptHistory[item.id][0] : null;
       let attempt2Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][1] !== undefined) ? loggedInUser.attemptHistory[item.id][1] : null;
 
-      let scoreDetailsHtml = `<div style="font-size:0.8rem; color:#475569; margin-top:4px;">`;
+      // प्रयत्न दाखवण्यासाठी आकर्षक बॅजेस (Attempt Badges)
+      let attemptBadgesHtml = `<div class="attempt-badge-container">`;
       if (userAttempts > 0) {
-        if (attempt1Score !== null) scoreDetailsHtml += `प्रयत्न १: <b>${attempt1Score} गुण</b> `;
-        if (userAttempts >= 2 && attempt2Score !== null) scoreDetailsHtml += `| प्रयत्न २: <b>${attempt2Score} गुण</b>`;
-        else if (userAttempts === 1) scoreDetailsHtml += `| (एकूण प्रयत्न: १/२)`;
+        if (attempt1Score !== null) {
+          attemptBadgesHtml += `<span class="badge-attempt done">प्रयत्न १: ${attempt1Score} गुण</span>`;
+        }
+        if (userAttempts >= 2 && attempt2Score !== null) {
+          attemptBadgesHtml += `<span class="badge-attempt done">प्रयत्न २: ${attempt2Score} गुण</span>`;
+        } else if (userAttempts === 1) {
+          attemptBadgesHtml += `<span class="badge-attempt">प्रयत्न २: शिल्लक</span>`;
+        }
       } else {
-        scoreDetailsHtml += `अद्याप सोडवलेली नाही (प्रयत्न शिल्लक: २)`;
+        attemptBadgesHtml += `<span class="badge-attempt">अद्याप सोडवलेली नाही (२ प्रयत्न शिल्लक)</span>`;
       }
-      scoreDetailsHtml += `</div>`;
+      attemptBadgesHtml += `</div>`;
 
       let actionArea = "";
       if (!isAccessible) {
-        actionArea = `<button class="btn-action btn-locked">🔒 ${item.dateMarathi} रोजी अनलॉक</button>`;
+        actionArea = `<button class="btn-action btn-locked" style="margin-top:10px;">🔒 ${item.dateMarathi} रोजी अनलॉक</button>`;
       } else if (inProg) {
-        actionArea = `<button class="btn-action btn-resume" onclick="resumeTest(${item.id})">⚡ अर्धवट चाचणी पूर्ण करा</button>`;
+        actionArea = `<button class="btn-action btn-resume" style="margin-top:10px;" onclick="resumeTest(${item.id})">⚡ अर्धवट चाचणी पूर्ण करा</button>`;
       } else if (userAttempts >= 2) {
-        actionArea = `<div><button class="btn-action btn-locked" title="तुम्हाला दिलेले दोन प्रयत्न संपले आहेत">🔒 दोन प्रयत्न पूर्ण झाले</button></div>`;
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-locked" title="तुम्हाला दिलेले दोन प्रयत्न संपले आहेत">🔒 दोन प्रयत्न पूर्ण झाले</button></div>`;
       } else if (savedScore !== undefined) {
-        actionArea = `<div><button class="btn-action btn-retry" onclick="openTestGuideline(${item.id})">दुसरा प्रयत्न सोडवा</button></div>`;
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-retry" onclick="openTestGuideline(${item.id})">दुसरा प्रयत्न सोडवा</button></div>`;
       } else {
-        actionArea = `<button class="btn-action btn-start" onclick="openTestGuideline(${item.id})">चाचणी सोडवा</button>`;
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-start" onclick="openTestGuideline(${item.id})">चाचणी सोडवा</button></div>`;
       }
 
-      let adminToggleHtml = isAdminMode ? (isAccessible ? `<button class="btn-toggle-admin" style="background:#dc2626;" onclick="toggleGlobalTestStatus(${item.id}, false)">🔒 Lock</button>` : `<button class="btn-toggle-admin" style="background:#16a34a;" onclick="toggleGlobalTestStatus(${item.id}, true)">🔓 Unlock</button>`) : "";
+      let adminToggleHtml = isAdminMode ? (isAccessible ? `<button class="btn-toggle-admin" style="background:#dc2626; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, false)">🔒 Lock</button>` : `<button class="btn-toggle-admin" style="background:#16a34a; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, true)">🔓 Unlock</button>`) : "";
 
+      // संपूर्ण माहिती अगदी मध्यभागी (Center) सेट केली आहे
       card.innerHTML = `
-        <div>
-          <h4 style="font-weight:700; font-size:1rem; color:#0f2b48;">${item.title}</h4>
-          <span style="font-size:0.8rem; color:#64748b;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
-          ${scoreDetailsHtml}
+        <div style="width: 100%;">
+          <h4 style="font-weight:800; font-size:1.1rem; color:#0f2b48; margin-bottom:4px;">${item.title}</h4>
+          <span style="font-size:0.85rem; color:#475569; display:block; margin-bottom:6px;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
+          ${attemptBadgesHtml}
+          ${actionArea}
+          ${adminToggleHtml}
         </div>
-        <div style="display:flex; align-items:center;">${actionArea}${adminToggleHtml}</div>
       `;
       container.appendChild(card);
     });
