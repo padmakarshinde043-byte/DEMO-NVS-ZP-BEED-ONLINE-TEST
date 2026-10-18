@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   
-  <link rel="manifest" href="data:application/manifest+json;utf-8,%7B%22name%22%3A%22NVS%20TEST%20ZP%20BEED%22%2C%22short_name%22%3A%22NVS%20TEST%20ZP%20BEED%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%230f2b48%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22logo.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json;utf-8,%7B%22name%22%3A%22NVS%20TEST%20ZP%20BEED%22%2C%22short_name%22%3A%22NVS%20TEST%20ZP%20BEED%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f1f5f9%22%2C%22theme_color%22%3A%22%230f2b48%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22logo.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
   
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -25,7 +25,7 @@
       --accent: #d97706;
       --danger: #dc2626;
       --success: #16a34a;
-      --bg: #f8fafc;
+      --bg: #f1f5f9; /* हलका प्रोफेशनल डॅशबोर्ड कलर */
       --card-bg: #ffffff;
       --text: #0f172a;
       --border: #cbd5e1;
@@ -57,11 +57,11 @@
     .card { background: var(--card-bg); border-radius: 16px; padding: 22px; box-shadow: 0 4px 20px rgba(15, 43, 72, 0.06); margin-bottom: 16px; border: 1px solid var(--border); }
 
     .district-warning-box {
-      background: #fff7ed; border: 1.5px solid #fdba74; border-left: 5px solid #ea580c; border-radius: 10px;
-      padding: 12px 14px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.5; color: #9a3412;
+      background: #fffbeb; border: 1.5px solid #fde68a; border-left: 5px solid #d97706; border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.5; color: #92400e;
     }
     .student-bar {
-      background: #ffffff; padding: 14px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 14px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 16px; border-left: 5px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border);
     }
     .student-bar h3 { font-size: 1.15rem; color: var(--primary); font-weight: 800; }
@@ -89,12 +89,13 @@
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(26, 74, 117, 0.12); }
 
     .test-item {
-      background: #ffffff; border-radius: 14px; padding: 15px 18px; margin-bottom: 12px; display: flex;
+      background: linear-gradient(135deg, #ffffff 0%, #fcfdfe 100%); border-radius: 14px; padding: 15px 18px; margin-bottom: 12px; display: flex;
       justify-content: space-between; align-items: center; border-left: 5px solid #cbd5e1; border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(15, 43, 72, 0.03);
     }
     .test-item.unlocked { border-left-color: var(--success); }
 
-    .guideline-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95rem; }
+    .guideline-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95rem; background: #ffffff; }
     .guideline-table th, .guideline-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: center; }
     .guideline-table th { background: #f1f5f9; color: var(--primary); font-weight: 700; }
 
@@ -190,7 +191,7 @@
     .flower-banner-box { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
     .flower-banner-box img { max-height: 150px; width: auto; border-radius: 14px; object-fit: contain; background: transparent; }
 
-    .report-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95rem; }
+    .report-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95rem; background: #ffffff; }
     .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: center; }
     .report-table th { background: #f1f5f9; color: var(--primary); font-weight: 800; }
 
@@ -305,10 +306,10 @@
 
       <div style="padding: 20px; max-height: 70vh; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;" id="officersStack">
         
-        <!-- मुख्य कार्यकारी अधिकारी संदेश (जितिन रहमान साहेब - p1.jpeg) -->
+        <!-- मुख्य कार्यकारी अधिकारी संदेश (जितिन रहमान - p1.jpeg) -->
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #1e3a8a; padding: 15px; border-radius: 12px; display: flex; gap: 15px; align-items: center;">
           <div style="width: 80px; height: 80px; min-width: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #1e3a8a; box-shadow: 0 4px 8px rgba(0,0,0,0.15); background: #e2e8f0;">
-            <img src="p1.jpeg" alt="जितिन रहमान साहेब" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
+            <img src="p1.jpeg" alt="जितिन रहमान" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
           </div>
           <div>
             <h3 style="color: #1e3a8a; font-size: 1rem; font-weight: 800; margin-bottom: 2px;">जितिन रहमान (भा.प्र.से.)</h3>
@@ -319,10 +320,10 @@
           </div>
         </div>
 
-        <!-- शिक्षणाधिकारी प्राथमिक संदेश (जयश्री चव्हाण मॅडम - p2.jpeg) -->
+        <!-- शिक्षणाधिकारी प्राथमिक संदेश (जयश्री चव्हाण - p2.jpeg) -->
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #16a34a; padding: 15px; border-radius: 12px; display: flex; gap: 15px; align-items: center;">
           <div style="width: 80px; height: 80px; min-width: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #16a34a; box-shadow: 0 4px 8px rgba(0,0,0,0.15); background: #e2e8f0;">
-            <img src="p2.jpeg" alt="जयश्री चव्हाण मॅडम" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
+            <img src="p2.jpeg" alt="जयश्री चव्हाण" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
           </div>
           <div>
             <h3 style="color: #1e3a8a; font-size: 1rem; font-weight: 800; margin-bottom: 2px;">जयश्री चव्हाण</h3>
@@ -777,28 +778,29 @@
 <div id="exitToast">बाहेर पडण्यासाठी पुन्हा एकदा Back दाबा</div>
 
 <footer>
-  <p>© All Rights Reserved | चाचणी निर्माते: <span>पदमाकर शिंदे, केंद्रप्रमुख, माजलगाव</span></p>
+  <p>© Savezpschools.in | तांत्रिक अडचणी करता संपर्क: <span>7219123699</span></p>
 </footer>
 
 <script>
   const FIREBASE_DB_URL = "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com";
 
+  // कंसातील (2026-27) काढून टाकण्यात आले आहे
   const EXAM_SCHEDULE = [
-    { id: 1, title: "नवोदय सराव चाचणी क्र. 01 (2026-27)", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
-    { id: 2, title: "नवोदय सराव चाचणी क्र. 02 (2026-27)", dateISO: "2026-11-12", dateMarathi: "12 नोव्हेंबर 2026", file: "test2.json" },
-    { id: 3, title: "नवोदय सराव चाचणी क्र. 03 (2026-27)", dateISO: "2026-11-13", dateMarathi: "13 नोव्हेंबर 2026", file: "test3.json" },
-    { id: 4, title: "नवोदय सराव चाचणी क्र. 04 (2026-27)", dateISO: "2026-11-14", dateMarathi: "14 नोव्हेंबर 2026", file: "test4.json" },
-    { id: 5, title: "नवोदय सराव चाचणी क्र. 05 (2026-27)", dateISO: "2026-11-15", dateMarathi: "15 नोव्हेंबर 2026", file: "test5.json" },
-    { id: 6, title: "नवोदय सराव चाचणी क्र. 06 (2026-27)", dateISO: "2026-11-16", dateMarathi: "16 नोव्हेंबर 2026", file: "test6.json" },
-    { id: 7, title: "नवोदय सराव चाचणी क्र. 07 (2026-27)", dateISO: "2026-11-17", dateMarathi: "17 नोव्हेंबर 2026", file: "test7.json" },
-    { id: 8, title: "नवोदय सराव चाचणी क्र. 08 (2026-27)", dateISO: "2026-11-18", dateMarathi: "18 नोव्हेंबर 2026", file: "test8.json" },
-    { id: 9, title: "नवोदय सराव चाचणी क्र. 09 (2026-27)", dateISO: "2026-11-19", dateMarathi: "19 नोव्हेंबर 2026", file: "test9.json" },
-    { id: 10, title: "नवोदय सराव चाचणी क्र. 10 (2026-27)", dateISO: "2026-11-20", dateMarathi: "20 नोव्हेंबर 2026", file: "test10.json" },
-    { id: 11, title: "नवोदय सराव चाचणी क्र. 11 (2026-27)", dateISO: "2026-11-21", dateMarathi: "21 नोव्हेंबर 2026", file: "test11.json" },
-    { id: 12, title: "नवोदय सराव चाचणी क्र. 12 (2026-27)", dateISO: "2026-11-22", dateMarathi: "22 नोव्हेंबर 2026", file: "test12.json" },
-    { id: 13, title: "नवोदय सराव चाचणी क्र. 13 (2026-27)", dateISO: "2026-11-23", dateMarathi: "23 नोव्हेंबर 2026", file: "test13.json" },
-    { id: 14, title: "नवोदय सराव चाचणी क्र. 14 (2026-27)", dateISO: "2026-11-24", dateMarathi: "24 नोव्हेंबर 2026", file: "test14.json" },
-    { id: 15, title: "नवोदय सराव चाचणी क्र. 15 (2026-27)", dateISO: "2026-11-25", dateMarathi: "25 नोव्हेंबर 2026", file: "test15.json" }
+    { id: 1, title: "नवोदय सराव चाचणी क्र. 01", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
+    { id: 2, title: "नवोदय सराव चाचणी क्र. 02", dateISO: "2026-11-12", dateMarathi: "12 नोव्हेंबर 2026", file: "test2.json" },
+    { id: 3, title: "नवोदय सराव चाचणी क्र. 03", dateISO: "2026-11-13", dateMarathi: "13 नोव्हेंबर 2026", file: "test3.json" },
+    { id: 4, title: "नवोदय सराव चाचणी क्र. 04", dateISO: "2026-11-14", dateMarathi: "14 नोव्हेंबर 2026", file: "test4.json" },
+    { id: 5, title: "नवोदय सराव चाचणी क्र. 05", dateISO: "2026-11-15", dateMarathi: "15 नोव्हेंबर 2026", file: "test5.json" },
+    { id: 6, title: "नवोदय सराव चाचणी क्र. 06", dateISO: "2026-11-16", dateMarathi: "16 नोव्हेंबर 2026", file: "test6.json" },
+    { id: 7, title: "नवोदय सराव चाचणी क्र. 07", dateISO: "2026-11-17", dateMarathi: "17 नोव्हेंबर 2026", file: "test7.json" },
+    { id: 8, title: "नवोदय सराव चाचणी क्र. 08", dateISO: "2026-11-18", dateMarathi: "18 नोव्हेंबर 2026", file: "test8.json" },
+    { id: 9, title: "नवोदय सराव चाचणी क्र. 09", dateISO: "2026-11-19", dateMarathi: "19 नोव्हेंबर 2026", file: "test9.json" },
+    { id: 10, title: "नवोदय सराव चाचणी क्र. 10", dateISO: "2026-11-20", dateMarathi: "20 नोव्हेंबर 2026", file: "test10.json" },
+    { id: 11, title: "नवोदय सराव चाचणी क्र. 11", dateISO: "2026-11-21", dateMarathi: "21 नोव्हेंबर 2026", file: "test11.json" },
+    { id: 12, title: "नवोदय सराव चाचणी क्र. 12", dateISO: "2026-11-22", dateMarathi: "22 नोव्हेंबर 2026", file: "test12.json" },
+    { id: 13, title: "नवोदय सराव चाचणी क्र. 13", dateISO: "2026-11-23", dateMarathi: "23 नोव्हेंबर 2026", file: "test13.json" },
+    { id: 14, title: "नवोदय सराव चाचणी क्र. 14", dateISO: "2026-11-24", dateMarathi: "24 नोव्हेंबर 2026", file: "test14.json" },
+    { id: 15, title: "नवोदय सराव चाचणी क्र. 15", dateISO: "2026-11-25", dateMarathi: "25 नोव्हेंबर 2026", file: "test15.json" }
   ];
 
   let loggedInUser = null;
@@ -1326,7 +1328,7 @@
 
           Promise.all(deletePromises)
             .then(() => {
-              alert("निवडलेले विद्यार्थी यशस्वीरित्या डिलीट झाले!");
+              alert("निवडलेले विद्यार्थी यशस्वीरीत्या डिलीट झाले!");
               loadRegisteredUsersTable();
               fetchAdminDashboardData();
             })
@@ -1817,15 +1819,29 @@
       const card = document.createElement("div");
       card.className = "test-item " + (isAccessible ? "unlocked" : "");
 
+      // प्रत्येक चाचणीखाली प्रयत्न १ आणि प्रयत्न २ चे गुण दाखवणे
+      let attempt1Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][0] !== undefined) ? loggedInUser.attemptHistory[item.id][0] : null;
+      let attempt2Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][1] !== undefined) ? loggedInUser.attemptHistory[item.id][1] : null;
+
+      let scoreDetailsHtml = `<div style="font-size:0.8rem; color:#475569; margin-top:4px;">`;
+      if (userAttempts > 0) {
+        if (attempt1Score !== null) scoreDetailsHtml += `प्रयत्न १: <b>${attempt1Score} गुण</b> `;
+        if (userAttempts >= 2 && attempt2Score !== null) scoreDetailsHtml += `| प्रयत्न २: <b>${attempt2Score} गुण</b>`;
+        else if (userAttempts === 1) scoreDetailsHtml += `| (एकूण प्रयत्न: १/२)`;
+      } else {
+        scoreDetailsHtml += `अद्याप सोडवलेली नाही (प्रयत्न शिल्लक: २)`;
+      }
+      scoreDetailsHtml += `</div>`;
+
       let actionArea = "";
       if (!isAccessible) {
         actionArea = `<button class="btn-action btn-locked">🔒 ${item.dateMarathi} रोजी अनलॉक</button>`;
       } else if (inProg) {
         actionArea = `<button class="btn-action btn-resume" onclick="resumeTest(${item.id})">⚡ अर्धवट चाचणी पूर्ण करा</button>`;
       } else if (userAttempts >= 2) {
-        actionArea = `<div><span style="font-weight:800; color:#1a4a75; font-size:0.9rem;">गुण: ${savedScore !== undefined ? savedScore : 0}/100</span><button class="btn-action btn-locked" title="तुम्हाला दिलेले दोन प्रयत्न संपले आहेत">🔒 दोन प्रयत्न पूर्ण झाले</button></div>`;
+        actionArea = `<div><button class="btn-action btn-locked" title="तुम्हाला दिलेले दोन प्रयत्न संपले आहेत">🔒 दोन प्रयत्न पूर्ण झाले</button></div>`;
       } else if (savedScore !== undefined) {
-        actionArea = `<div><span style="font-weight:800; color:#1a4a75; font-size:0.9rem;">गुण: ${savedScore}/100 (प्रयत्न: ${userAttempts}/2)</span><button class="btn-action btn-retry" onclick="openTestGuideline(${item.id})">दुसरा प्रयत्न सोडवा</button></div>`;
+        actionArea = `<div><button class="btn-action btn-retry" onclick="openTestGuideline(${item.id})">दुसरा प्रयत्न सोडवा</button></div>`;
       } else {
         actionArea = `<button class="btn-action btn-start" onclick="openTestGuideline(${item.id})">चाचणी सोडवा</button>`;
       }
@@ -1836,6 +1852,7 @@
         <div>
           <h4 style="font-weight:700; font-size:1rem; color:#0f2b48;">${item.title}</h4>
           <span style="font-size:0.8rem; color:#64748b;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
+          ${scoreDetailsHtml}
         </div>
         <div style="display:flex; align-items:center;">${actionArea}${adminToggleHtml}</div>
       `;
@@ -2127,9 +2144,16 @@
 
     loggedInUser.history = loggedInUser.history || {};
     loggedInUser.attempts = loggedInUser.attempts || {};
-    loggedInUser.attempts[currentQuizData.id] = (loggedInUser.attempts[currentQuizData.id] || 0) + 1;
-    if (totalMarks > (loggedInUser.history[currentQuizData.id] || 0)) { loggedInUser.history[currentQuizData.id] = totalMarks; }
-    if (loggedInUser.inProgress) delete loggedInUser.inProgress[currentQuizData.id];
+    loggedInUser.attemptHistory = loggedInUser.attemptHistory || {};
+    
+    let testId = currentQuizData.id;
+    loggedInUser.attempts[testId] = (loggedInUser.attempts[testId] || 0) + 1;
+    
+    if (!loggedInUser.attemptHistory[testId]) loggedInUser.attemptHistory[testId] = [];
+    loggedInUser.attemptHistory[testId].push(totalMarks);
+
+    if (totalMarks > (loggedInUser.history[testId] || 0)) { loggedInUser.history[testId] = totalMarks; }
+    if (loggedInUser.inProgress) delete loggedInUser.inProgress[testId];
     saveUserVault();
 
     const resultObj = {
@@ -2138,7 +2162,7 @@
       mobile: loggedInUser.mobile,
       taluka: loggedInUser.taluka,
       isTeacher: loggedInUser.isTeacher || false,
-      testId: currentQuizData.id,
+      testId: testId,
       testTitle: currentQuizData.title,
       score: totalMarks,
       percentage: perc,
