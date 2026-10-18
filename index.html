@@ -73,7 +73,7 @@
       box-shadow: 0 4px 12px rgba(15, 43, 72, 0.2);
     }
     .btn-action {
-      padding: 10px 22px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; font-size: 0.95rem;
+      padding: 10px 24px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; font-size: 1rem;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .btn-start { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
@@ -88,20 +88,20 @@
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1rem; background: #ffffff; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(26, 74, 117, 0.12); }
 
-    /* प्रत्येक चाचणीच्या टॅबसाठी मध्यवर्ती मांडणी व हलका कलरफुल डिझाईन */
+    /* चाचणी टॅब - अधिक मोठे आणि ठळक */
     .test-item {
-      border-radius: 16px; padding: 18px; margin-bottom: 14px; display: flex;
-      flex-direction: column; align-items: center; text-align: center; border: 1px solid var(--border);
-      box-shadow: 0 3px 12px rgba(15, 43, 72, 0.04); transition: transform 0.2s;
+      border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex;
+      flex-direction: column; align-items: center; text-align: center; border: 1.5px solid var(--border);
+      box-shadow: 0 4px 15px rgba(15, 43, 72, 0.05); transition: transform 0.2s;
     }
     .test-item:hover { transform: translateY(-2px); }
 
-    /* प्रयत्न बॅजेससाठी आकर्षक डिझाईन */
+    /* प्रयत्न १ आणि प्रयत्न २ चे गुण एका बाजूला एक (Side-by-side badges) */
     .attempt-badge-container {
-      display: flex; gap: 8px; justify-content: center; align-items: center; margin: 10px 0; flex-wrap: wrap;
+      display: flex; gap: 12px; justify-content: center; align-items: center; margin: 12px 0; flex-wrap: wrap;
     }
     .badge-attempt {
-      background: #ffffff; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: #1e293b; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      background: #ffffff; border: 1.5px solid #cbd5e1; padding: 6px 16px; border-radius: 25px; font-size: 0.95rem; font-weight: 800; color: #1e293b; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
     .badge-attempt.done { background: #dcfce7; border-color: #86efac; color: #166534; }
 
@@ -175,7 +175,7 @@
       .card { padding: 14px 10px; border-radius: 12px; }
       .student-bar { padding: 10px 12px; }
       .student-bar h3 { font-size: 1rem; }
-      .test-item { padding: 14px 12px; }
+      .test-item { padding: 16px 12px; }
       .exam-topbar { padding: 8px 10px; }
       .section-selector { gap: 6px; }
       .section-selector button { padding: 6px 4px; font-size: 0.8rem; min-height: 52px; }
@@ -745,7 +745,6 @@
 <script>
   const FIREBASE_DB_URL = "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com";
 
-  // कंसातील (2026-27) पूर्णपणे काढून टाकण्यात आले आहे
   const EXAM_SCHEDULE = [
     { id: 1, title: "नवोदय सराव चाचणी क्र. 01", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
     { id: 2, title: "नवोदय सराव चाचणी क्र. 02", dateISO: "2026-11-12", dateMarathi: "12 नोव्हेंबर 2026", file: "test2.json" },
@@ -785,23 +784,22 @@
 
   window.preloadedExams = {};
 
-  // विविध चाचण्यांसाठी हलके आणि आकर्षक पेस्टल कलर (Light Colorful Themes)
   const TEST_CARD_COLORS = [
-    { bg: '#fef2f2', border: '#fca5a5' }, // हलका लाल
-    { bg: '#fffbeb', border: '#fde047' }, // हलका पिवळा
-    { bg: '#f0fdf4', border: '#86efac' }, // हलका हिरवा
-    { bg: '#eff6ff', border: '#93c5fd' }, // हलका निळा
-    { bg: '#fdf4ff', border: '#f0abfc' }, // हलका गुलाबी/जांभळा
-    { bg: '#fefce8', border: '#fef08a' }, // लेमन
-    { bg: '#f0fdfa', border: '#5eead4' }, // सियान
-    { bg: '#fff1f2', border: '#fda4af' }, // रोझ
-    { bg: '#f8fafc', border: '#cbd5e1' }, // स्लॅट
-    { bg: '#fff7ed', border: '#fdba74' }, // ऑरेंज
-    { bg: '#f3e8ff', border: '#d8b4fe' }, // पर्पल
-    { bg: '#ecffe6', border: '#bdef83' }, // लाईट ग्रीन
-    { bg: '#e0f2fe', border: '#7dd3fc' }, // स्काय
-    { bg: '#fee2e2', border: '#f87171' }, // लाइट रेड
-    { bg: '#fef3c7', border: '#fcd34d' }  // अंबर
+    { bg: '#fef2f2', border: '#fca5a5' },
+    { bg: '#fffbeb', border: '#fde047' },
+    { bg: '#f0fdf4', border: '#86efac' },
+    { bg: '#eff6ff', border: '#93c5fd' },
+    { bg: '#fdf4ff', border: '#f0abfc' },
+    { bg: '#fefce8', border: '#fef08a' },
+    { bg: '#f0fdfa', border: '#5eead4' },
+    { bg: '#fff1f2', border: '#fda4af' },
+    { bg: '#f8fafc', border: '#cbd5e1' },
+    { bg: '#fff7ed', border: '#fdba74' },
+    { bg: '#f3e8ff', border: '#d8b4fe' },
+    { bg: '#ecffe6', border: '#bdef83' },
+    { bg: '#e0f2fe', border: '#7dd3fc' },
+    { bg: '#fee2e2', border: '#f87171' },
+    { bg: '#fef3c7', border: '#fcd34d' }
   ];
 
   function makeStudentId(mobile, name) {
@@ -1199,7 +1197,7 @@
 
   function submitStudentFeedback() {
     const feedbackText = document.getElementById("studentFeedbackInput").value.trim();
-    if (!feedbackText) { alert("कृपया तुमचा अभिप्राय किंवा सुधारणा लिहा."); return; }
+    if (!feedbackText) { alert("कृपया तुमचा अभिप्राय किंवा सूचना लिहा."); return; }
 
     const feedbackObj = {
       uid: loggedInUser.uid,
@@ -1309,7 +1307,7 @@
 
           Promise.all(deletePromises)
             .then(() => {
-              alert("निवडलेले विद्यार्थी यशस्वीरीत्या डिलीट झाले!");
+              alert("निवडलेले विद्यार्थी यशस्वीरित्या डिलीट झाले!");
               loadRegisteredUsersTable();
               fetchAdminDashboardData();
             })
@@ -1800,7 +1798,7 @@
       const card = document.createElement("div");
       card.className = "test-item " + (isAccessible ? "unlocked" : "");
       
-      // प्रत्येक चाचणीच्या टॅबला हलका, युनिक आणि सुंदर रंग देणे (Light Colorful Theme)
+      // प्रत्येक चाचणी कार्डसाठी हलका आणि आकर्षक रंग
       const colorScheme = TEST_CARD_COLORS[index % TEST_CARD_COLORS.length];
       card.style.background = colorScheme.bg;
       card.style.borderColor = colorScheme.border;
@@ -1809,19 +1807,19 @@
       let attempt1Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][0] !== undefined) ? loggedInUser.attemptHistory[item.id][0] : null;
       let attempt2Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][1] !== undefined) ? loggedInUser.attemptHistory[item.id][1] : null;
 
-      // प्रयत्न दाखवण्यासाठी आकर्षक बॅजेस (Attempt Badges)
+      // प्रयत्न १ व प्रयत्न २ चे गुण एका बाजूला एक इंग्रजी अंकात आकर्षक बॅजेसमध्ये दाखवणे
       let attemptBadgesHtml = `<div class="attempt-badge-container">`;
       if (userAttempts > 0) {
         if (attempt1Score !== null) {
-          attemptBadgesHtml += `<span class="badge-attempt done">प्रयत्न १: ${attempt1Score} गुण</span>`;
+          attemptBadgesHtml += `<span class="badge-attempt done">Attempt 1: <b>${attempt1Score}</b> marks</span>`;
         }
         if (userAttempts >= 2 && attempt2Score !== null) {
-          attemptBadgesHtml += `<span class="badge-attempt done">प्रयत्न २: ${attempt2Score} गुण</span>`;
+          attemptBadgesHtml += `<span class="badge-attempt done">Attempt 2: <b>${attempt2Score}</b> marks</span>`;
         } else if (userAttempts === 1) {
-          attemptBadgesHtml += `<span class="badge-attempt">प्रयत्न २: शिल्लक</span>`;
+          attemptBadgesHtml += `<span class="badge-attempt">Attempt 2: Available</span>`;
         }
       } else {
-        attemptBadgesHtml += `<span class="badge-attempt">अद्याप सोडवलेली नाही (२ प्रयत्न शिल्लक)</span>`;
+        attemptBadgesHtml += `<span class="badge-attempt">Not attempted yet (2 attempts left)</span>`;
       }
       attemptBadgesHtml += `</div>`;
 
@@ -1840,11 +1838,11 @@
 
       let adminToggleHtml = isAdminMode ? (isAccessible ? `<button class="btn-toggle-admin" style="background:#dc2626; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, false)">🔒 Lock</button>` : `<button class="btn-toggle-admin" style="background:#16a34a; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, true)">🔓 Unlock</button>`) : "";
 
-      // संपूर्ण माहिती अगदी मध्यभागी (Center) सेट केली आहे
+      // सर्व माहिती मध्यभागी (Center Aligned) आणि ठळक अक्षरात
       card.innerHTML = `
         <div style="width: 100%;">
-          <h4 style="font-weight:800; font-size:1.1rem; color:#0f2b48; margin-bottom:4px;">${item.title}</h4>
-          <span style="font-size:0.85rem; color:#475569; display:block; margin-bottom:6px;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
+          <h4 style="font-weight:800; font-size:1.2rem; color:#0f2b48; margin-bottom:6px;">${item.title}</h4>
+          <span style="font-size:0.9rem; font-weight:700; color:#334155; display:block; margin-bottom:8px;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
           ${attemptBadgesHtml}
           ${actionArea}
           ${adminToggleHtml}
