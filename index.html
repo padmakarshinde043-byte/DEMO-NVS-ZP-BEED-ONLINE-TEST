@@ -88,7 +88,7 @@
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1rem; background: #ffffff; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(26, 74, 117, 0.12); }
 
-    /* चाचणी टॅब - अधिक मोठे, ठळक आणि मध्यवर्ती */
+    /* चाचणी टॅब - अधिक मोठे आणि ठळक */
     .test-item {
       border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex;
       flex-direction: column; align-items: center; text-align: center; border: 1.5px solid var(--border);
@@ -96,9 +96,9 @@
     }
     .test-item:hover { transform: translateY(-2px); }
 
-    /* Attempt 1 आणि Attempt 2 चे बॅजेस एका बाजूला एक */
+    /* प्रयत्न १ आणि प्रयत्न २ चे गुण एका बाजूला एक (Side-by-side badges) */
     .attempt-badge-container {
-      display: flex; gap: 10px; justify-content: center; align-items: center; margin: 12px 0; flex-wrap: wrap;
+      display: flex; gap: 12px; justify-content: center; align-items: center; margin: 12px 0; flex-wrap: wrap;
     }
     .badge-attempt {
       background: #ffffff; border: 1.5px solid #cbd5e1; padding: 6px 16px; border-radius: 25px; font-size: 0.95rem; font-weight: 800; color: #1e293b; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
@@ -743,18 +743,7 @@
 </footer>
 
 <script>
-  // Firebase Configuration updated securely
-  const firebaseConfig = {
-    apiKey: "AIzaSyCaJQasvwlIsdt84xyjLvon6-8ASJ7vjtY",
-    authDomain: "nvs-zp-beed-online-test.firebaseapp.com",
-    databaseURL: "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com",
-    projectId: "nvs-zp-beed-online-test",
-    storageBucket: "nvs-zp-beed-online-test.firebasestorage.app",
-    messagingSenderId: "840895898271",
-    appId: "1:840895898271:web:a499e8b5adcb411c7fb8aa"
-  };
-
-  const FIREBASE_DB_URL = firebaseConfig.databaseURL;
+  const FIREBASE_DB_URL = "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com";
 
   const EXAM_SCHEDULE = [
     { id: 1, title: "नवोदय सराव चाचणी क्र. 01", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
@@ -1762,6 +1751,508 @@
       alert("सर्व बदलांसह JSON कोड यशस्वीरीत्या कॉपी झाला!");
     }).catch(() => {
       alert("कॉपी करण्यात अयशस्वी.");
+    });
+  }
+
+  function renderDashboard() {
+    currentScreen = 'dashboard';
+    history.replaceState({ screen: 'dashboard' }, "");
+
+    document.getElementById("registrationCard").style.display = "none";
+    document.getElementById("guidelinesArea").style.display = "none";
+    document.getElementById("testArena").style.display = "none";
+    document.getElementById("resultCertArea").style.display = "none";
+    document.getElementById("answerKeyArea").style.display = "none";
+    document.getElementById("dashboardArea").style.display = "block";
+
+    const isUserTeacher = loggedInUser && loggedInUser.isTeacher;
+    const isUserVip = loggedInUser && loggedInUser.mobile && (whitelistedMobiles[loggedInUser.mobile] !== undefined);
+
+    let displayName = loggedInUser.name;
+    if (isUserTeacher) {
+      displayName += " (शिक्षक - Teacher Login)";
+    } else if (isUserVip) {
+      displayName += " (Teacher Module)";
+    }
+
+    document.getElementById("displayStudentName").innerText = displayName;
+    document.getElementById("displayStudentMeta").innerText = "मोबाईल: " + loggedInUser.mobile + " | तालुका: " + loggedInUser.taluka;
+
+    if (isAdminMode) {
+      document.getElementById("adminPanelArea").style.display = "block";
+      fetchAdminDashboardData();
+    } else {
+      document.getElementById("adminPanelArea").style.display = "none";
+    }
+
+    const container = document.getElementById("testsScheduleList");
+    container.innerHTML = "";
+    const todayDate = new Date().toISOString().split("T")[0];
+
+    EXAM_SCHEDULE.forEach((item, index) => {
+      let isAccessible = isUserVip || isUserTeacher || (globalUnlockedTests[item.id] !== undefined ? globalUnlockedTests[item.id] : (todayDate >= item.dateISO));
+      const savedScore = loggedInUser.history && loggedInUser.history[item.id];
+      const inProg = loggedInUser.inProgress && loggedInUser.inProgress[item.id];
+      const userAttempts = loggedInUser.attempts && loggedInUser.attempts[item.id] ? loggedInUser.attempts[item.id] : 0;
+
+      const card = document.createElement("div");
+      card.className = "test-item " + (isAccessible ? "unlocked" : "");
+      
+      // प्रत्येक चाचणी कार्डसाठी हलका आणि आकर्षक रंग
+      const colorScheme = TEST_CARD_COLORS[index % TEST_CARD_COLORS.length];
+      card.style.background = colorScheme.bg;
+      card.style.borderColor = colorScheme.border;
+
+      // प्रयत्न १ आणि प्रयत्न २ चे गुण मिळवणे
+      let attempt1Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][0] !== undefined) ? loggedInUser.attemptHistory[item.id][0] : null;
+      let attempt2Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][1] !== undefined) ? loggedInUser.attemptHistory[item.id][1] : null;
+
+      // प्रयत्न १ व प्रयत्न २ चे गुण एका बाजूला एक इंग्रजी अंकात आकर्षक बॅजेसमध्ये दाखवणे
+      let attemptBadgesHtml = `<div class="attempt-badge-container">`;
+      if (userAttempts > 0) {
+        if (attempt1Score !== null) {
+          attemptBadgesHtml += `<span class="badge-attempt done">Attempt 1: <b>${attempt1Score}</b> marks</span>`;
+        }
+        if (userAttempts >= 2 && attempt2Score !== null) {
+          attemptBadgesHtml += `<span class="badge-attempt done">Attempt 2: <b>${attempt2Score}</b> marks</span>`;
+        } else if (userAttempts === 1) {
+          attemptBadgesHtml += `<span class="badge-attempt">Attempt 2: Available</span>`;
+        }
+      } else {
+        attemptBadgesHtml += `<span class="badge-attempt">Not attempted yet (2 attempts left)</span>`;
+      }
+      attemptBadgesHtml += `</div>`;
+
+      let actionArea = "";
+      if (!isAccessible) {
+        actionArea = `<button class="btn-action btn-locked" style="margin-top:10px;">🔒 ${item.dateMarathi} रोजी अनलॉक</button>`;
+      } else if (inProg) {
+        actionArea = `<button class="btn-action btn-resume" style="margin-top:10px;" onclick="resumeTest(${item.id})">⚡ अर्धवट चाचणी पूर्ण करा</button>`;
+      } else if (userAttempts >= 2) {
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-locked" title="तुम्हाला दिलेले दोन प्रयत्न संपले आहेत">🔒 दोन प्रयत्न पूर्ण झाले</button></div>`;
+      } else if (savedScore !== undefined) {
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-retry" onclick="openTestGuideline(${item.id})">दुसरा प्रयत्न सोडवा</button></div>`;
+      } else {
+        actionArea = `<div style="margin-top:10px;"><button class="btn-action btn-start" onclick="openTestGuideline(${item.id})">चाचणी सोडवा</button></div>`;
+      }
+
+      let adminToggleHtml = isAdminMode ? (isAccessible ? `<button class="btn-toggle-admin" style="background:#dc2626; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, false)">🔒 Lock</button>` : `<button class="btn-toggle-admin" style="background:#16a34a; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, true)">🔓 Unlock</button>`) : "";
+
+      // सर्व माहिती मध्यभागी (Center Aligned) आणि ठळक अक्षरात
+      card.innerHTML = `
+        <div style="width: 100%;">
+          <h4 style="font-weight:800; font-size:1.2rem; color:#0f2b48; margin-bottom:6px;">${item.title}</h4>
+          <span style="font-size:0.9rem; font-weight:700; color:#334155; display:block; margin-bottom:8px;">दिनांक: ${item.dateMarathi} | 80 प्रश्न | 100 गुण</span>
+          ${attemptBadgesHtml}
+          ${actionArea}
+          ${adminToggleHtml}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function toggleGlobalTestStatus(testId, shouldUnlock) {
+    globalUnlockedTests[testId] = shouldUnlock;
+    renderDashboard();
+    fetch(`${FIREBASE_DB_URL}/unlocked_tests/${testId}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(shouldUnlock)
+    }).then(() => alert(`चाचणी क्र. ${testId} ${shouldUnlock ? 'अनलॉक' : 'लॉक'} झाली आहे.`));
+  }
+
+  function openTestGuideline(testId) {
+    currentPendingTest = EXAM_SCHEDULE.find(t => t.id === testId);
+    
+    const userAttempts = loggedInUser.attempts && loggedInUser.attempts[currentPendingTest.id] ? loggedInUser.attempts[currentPendingTest.id] : 0;
+    if (userAttempts >= 2) {
+      alert("या चाचणीसाठी तुम्हाला दिलेले दोन्ही प्रयत्न संपले आहेत!");
+      return;
+    }
+
+    currentScreen = 'guidelines';
+    history.pushState({ screen: 'guidelines' }, "");
+    document.getElementById("dashboardArea").style.display = "none";
+    document.getElementById("guidelinesArea").style.display = "block";
+    document.getElementById("guideTestTitle").innerText = currentPendingTest.title;
+
+    const warningBox = document.getElementById("attemptWarningBox");
+    warningBox.style.display = "block";
+
+    window.scrollTo(0, 0);
+  }
+
+  function cancelGuideline() {
+    currentPendingTest = null;
+    document.getElementById("guidelinesArea").style.display = "none";
+    renderDashboard();
+  }
+
+  async function startExamInstant() {
+    if (!currentPendingTest) return;
+    
+    let data = window.preloadedExams[currentPendingTest.id];
+    if (!data) {
+      try {
+        const res = await fetch(currentPendingTest.file);
+        data = await res.json();
+      } catch(err) {
+        alert("चाचणी फाईल लोड करण्यात अडचण आली.");
+        return;
+      }
+    }
+
+    const promises = data.questions.map(async (q, idx) => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+
+      try {
+        const fbRes = await fetch(`${FIREBASE_DB_URL}/overrides/t${currentPendingTest.id}_q${q.id}.json`);
+        const fbData = await fbRes.json();
+        if (fbData) {
+          if (fbData.id <= 40) fbData.sec = "mental";
+          else if (fbData.id <= 60) fbData.sec = "math";
+          else if (fbData.id <= 80) fbData.sec = "lang";
+          data.questions[idx] = fbData;
+        }
+      } catch(e) {}
+    });
+
+    await Promise.all(promises);
+    document.getElementById("guidelinesArea").style.display = "none";
+    launchTestWithData(data, false);
+  }
+
+  async function resumeTest(testId) {
+    currentPendingTest = EXAM_SCHEDULE.find(t => t.id === testId);
+    let data = window.preloadedExams[testId];
+    try {
+      if (!data) {
+        const res = await fetch(currentPendingTest.file);
+        data = await res.json();
+      }
+
+      const promises = data.questions.map(async (q, idx) => {
+        if (q.id <= 40) q.sec = "mental";
+        else if (q.id <= 60) q.sec = "math";
+        else if (q.id <= 80) q.sec = "lang";
+
+        try {
+          const fbRes = await fetch(`${FIREBASE_DB_URL}/overrides/t${testId}_q${q.id}.json`);
+          const fbData = await fbRes.json();
+          if (fbData) {
+            if (fbData.id <= 40) fbData.sec = "mental";
+            else if (fbData.id <= 60) fbData.sec = "math";
+            else if (fbData.id <= 80) fbData.sec = "lang";
+            data.questions[idx] = fbData;
+          }
+        } catch(e) {}
+      });
+
+      await Promise.all(promises);
+      launchTestWithData(data, true);
+    } catch(err) {
+      alert("चाचणी रिझ्युम करताना अडचण आली.");
+    }
+  }
+
+  function launchTestWithData(testData, isResume) {
+    let remTime = 120 * 60;
+    recordedChoices = {};
+
+    if (isResume && loggedInUser.inProgress && loggedInUser.inProgress[testData.testId]) {
+      const savedProg = loggedInUser.inProgress[testData.testId];
+      remTime = savedProg.remainingSeconds || (120 * 60);
+      recordedChoices = savedProg.recordedChoices || {};
+    }
+
+    currentQuizData = { id: testData.testId, title: testData.title, questions: testData.questions, remainingSeconds: remTime };
+    selectedSection = 'mental';
+    currentScreen = 'exam';
+    history.pushState({ screen: 'exam' }, "");
+
+    document.getElementById("dashboardArea").style.display = "none";
+    document.getElementById("testArena").style.display = "block";
+    
+    updateHeaderDisplay(testData.title);
+
+    displaySection('mental');
+    runTimer();
+    window.scrollTo(0, 0);
+  }
+
+  function updateHeaderDisplay(testTitle) {
+    const headerTitleEl = document.getElementById("headerTestTitle");
+    let userInfoStr = loggedInUser ? ` | विद्यार्थी: ${loggedInUser.name}` : "";
+    if (loggedInUser && loggedInUser.isTeacher) {
+      userInfoStr += " [शिक्षक लॉगिन - Teacher Mode]";
+    }
+    headerTitleEl.innerText = `${testTitle}${userInfoStr}`;
+  }
+
+  function displaySection(secKey) {
+    selectedSection = secKey;
+    document.getElementById("tab-sec1").className = secKey === 'mental' ? 'active' : '';
+    document.getElementById("tab-sec2").className = secKey === 'math' ? 'active' : '';
+    document.getElementById("tab-sec3").className = secKey === 'lang' ? 'active' : '';
+
+    const container = document.getElementById("questionsHost");
+    container.innerHTML = "";
+
+    const filtered = currentQuizData.questions.filter(q => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+      return q.sec === secKey;
+    });
+
+    let lastPassage = "";
+
+    filtered.forEach(q => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question-card";
+
+      let pText = "";
+      if (q.passage && q.passage !== lastPassage) {
+        pText = '<div class="passage-box">' + q.passage + '</div>';
+        lastPassage = q.passage;
+      }
+
+      let figHtml = "";
+      if (q.problemFig) {
+        let probContent = q.problemFig.startsWith("http") || q.problemFig.startsWith("data:") ? `<img src="${q.problemFig}" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/3/3a/Visual_test_sample_2.svg';">` : q.problemFig;
+        figHtml += `<div class="fig-box">${probContent}</div>`;
+      }
+
+      let opts = '<div class="options-grid">';
+      q.options.forEach((opt, idx) => {
+        const isSel = recordedChoices[q.id] === idx ? "checked" : "";
+        let optDisplay = opt.startsWith("http") || opt.startsWith("data:") ? `<img src="${opt}" style="max-height:40px; object-fit:contain;" onerror="this.onerror=null; this.src='';">` : `<span>${opt}</span>`;
+        opts += `<label class="opt-label"><input type="radio" name="q_${q.id}" value="${idx}" ${isSel} onchange="markAnswer(${q.id}, ${idx})">${optDisplay}</label>`;
+      });
+      opts += '</div>';
+
+      let rawText = q.text || "";
+      let cleanText = rawText.replace(/^(प्रश्न|Question)\s*\d+[\s\.:\-\)]*/gi, "").trim();
+      if (!cleanText) cleanText = rawText;
+
+      qDiv.innerHTML = `${pText}<div class="q-badge-box">प्रश्न ${q.id}</div><div class="q-text-content">${cleanText}</div>${figHtml}${opts}`;
+      container.appendChild(qDiv);
+    });
+
+    const footerNav = document.getElementById("sectionNavFooter");
+    if (secKey === 'mental') {
+      footerNav.innerHTML = `<div></div><button class="btn-nav-next" onclick="goToSection('math')">पुढील भाग: अंकगणित ➔</button>`;
+    } else if (secKey === 'math') {
+      footerNav.innerHTML = `<button class="btn-nav-prev" onclick="goToSection('mental')">⬅ मागील भाग</button><button class="btn-nav-next" onclick="goToSection('lang')">पुढील भाग: भाषा ➔</button>`;
+    } else if (secKey === 'lang') {
+      footerNav.innerHTML = `<button class="btn-nav-prev" onclick="goToSection('math')">⬅ मागील भाग</button><button class="btn-main" style="background:var(--danger); width:auto; padding:10px 24px; margin-left:auto;" onclick="confirmSubmission()">चाचणी सबमिट करा</button>`;
+    }
+  }
+
+  function goToSection(secKey) { displaySection(secKey); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function markAnswer(qId, idx) { recordedChoices[qId] = idx; saveCurrentExamProgress(); }
+
+  function saveCurrentExamProgress() {
+    if (!currentQuizData || !loggedInUser) return;
+    loggedInUser.inProgress = loggedInUser.inProgress || {};
+    loggedInUser.inProgress[currentQuizData.id] = { remainingSeconds: currentQuizData.remainingSeconds, recordedChoices: recordedChoices };
+    saveUserVault();
+  }
+
+  function runTimer() {
+    clearInterval(quizInterval);
+    quizInterval = setInterval(() => {
+      currentQuizData.remainingSeconds--;
+      let m = Math.floor(currentQuizData.remainingSeconds / 60);
+      let s = currentQuizData.remainingSeconds % 60;
+      document.getElementById("clockDisplay").innerText = m + ":" + (s < 10 ? "0" : "") + s;
+      if (currentQuizData.remainingSeconds <= 0) { clearInterval(quizInterval); finalizeEvaluation(); }
+    }, 1000);
+  }
+
+  function confirmSubmission() {
+    currentScreen = 'summary';
+    let counts = { mental: { total: 0, solved: 0 }, math: { total: 0, solved: 0 }, lang: { total: 0, solved: 0 } };
+    
+    currentQuizData.questions.forEach(q => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+
+      if (counts[q.sec]) { 
+        counts[q.sec].total++; 
+        if (recordedChoices[q.id] !== undefined) counts[q.sec].solved++; 
+      }
+    });
+
+    const totalQ = counts.mental.total + counts.math.total + counts.lang.total;
+    const totalS = counts.mental.solved + counts.math.solved + counts.lang.solved;
+    const totalRem = totalQ - totalS;
+
+    document.getElementById("summaryTableBody").innerHTML = `
+      <tr><td style="text-align:left; font-weight:700;">मानसिक क्षमता व EVS</td><td>${counts.mental.total}</td><td><span class="badge-solved">${counts.mental.solved}</span></td><td><span class="${counts.mental.total-counts.mental.solved>0?'badge-unsolved':'badge-solved'}">${counts.mental.total-counts.mental.solved}</span></td></tr>
+      <tr><td style="text-align:left; font-weight:700;">अंकगणित</td><td>${counts.math.total}</td><td><span class="badge-solved">${counts.math.solved}</span></td><td><span class="${counts.math.total-counts.math.solved>0?'badge-unsolved':'badge-solved'}">${counts.math.total-counts.math.solved}</span></td></tr>
+      <tr><td style="text-align:left; font-weight:700;">भाषा चाचणी</td><td>${counts.lang.total}</td><td><span class="badge-solved">${counts.lang.solved}</span></td><td><span class="${counts.lang.total-counts.lang.solved>0?'badge-unsolved':'badge-solved'}">${counts.lang.total-counts.lang.solved}</span></td></tr>
+    `;
+
+    const alertBox = document.getElementById("summaryAlertBox");
+    if (totalRem > 0) {
+      alertBox.style.background = "#fef2f2"; alertBox.style.color = "#991b1b";
+      alertBox.innerHTML = `⚠️ तुमचे अद्याप <b>${totalRem}</b> प्रश्न सोडवायचे बाकी आहेत!`;
+    } else {
+      alertBox.style.background = "#ecfdf5"; alertBox.style.color = "#065f46";
+      alertBox.innerHTML = `🌟 तुम्ही सर्व <b>${totalQ}</b> प्रश्न सोडवले आहेत.`;
+    }
+    document.getElementById("summaryModalOverlay").style.display = "flex";
+  }
+
+  function closeSummaryModal() { currentScreen = 'exam'; document.getElementById("summaryModalOverlay").style.display = "none"; }
+  function executeFinalSubmission() { document.getElementById("summaryModalOverlay").style.display = "none"; finalizeEvaluation(); }
+
+  function finalizeEvaluation() {
+    clearInterval(quizInterval);
+    let mentalCorrect = 0, mathCorrect = 0, langCorrect = 0;
+
+    currentQuizData.questions.forEach(q => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+
+      if (recordedChoices[q.id] === q.correct) {
+        if (q.sec === "mental") mentalCorrect++;
+        else if (q.sec === "math") mathCorrect++;
+        else if (q.sec === "lang") langCorrect++;
+      }
+    });
+
+    const mentalMarks = mentalCorrect * 1.25;
+    const mathMarks = mathCorrect * 1.25;
+    const langMarks = langCorrect * 1.25;
+    const totalMarks = mentalMarks + mathMarks + langMarks;
+    const perc = totalMarks.toFixed(1);
+
+    loggedInUser.history = loggedInUser.history || {};
+    loggedInUser.attempts = loggedInUser.attempts || {};
+    loggedInUser.attemptHistory = loggedInUser.attemptHistory || {};
+    
+    let testId = currentQuizData.id;
+    loggedInUser.attempts[testId] = (loggedInUser.attempts[testId] || 0) + 1;
+    
+    if (!loggedInUser.attemptHistory[testId]) loggedInUser.attemptHistory[testId] = [];
+    loggedInUser.attemptHistory[testId].push(totalMarks);
+
+    if (totalMarks > (loggedInUser.history[testId] || 0)) { loggedInUser.history[testId] = totalMarks; }
+    if (loggedInUser.inProgress) delete loggedInUser.inProgress[testId];
+    saveUserVault();
+
+    const resultObj = {
+      uid: loggedInUser.uid,
+      name: loggedInUser.name,
+      mobile: loggedInUser.mobile,
+      taluka: loggedInUser.taluka,
+      isTeacher: loggedInUser.isTeacher || false,
+      testId: testId,
+      testTitle: currentQuizData.title,
+      score: totalMarks,
+      percentage: perc,
+      timestamp: new Date().toLocaleString("en-IN")
+    };
+    fetch(`${FIREBASE_DB_URL}/results.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(resultObj)
+    }).catch(() => {});
+
+    currentScreen = 'result';
+    document.getElementById("testArena").style.display = "none";
+    document.getElementById("resultCertArea").style.display = "block";
+    document.getElementById("cScore").innerText = totalMarks;
+    document.getElementById("cPerc").innerText = perc;
+
+    document.getElementById("cReportCardBody").innerHTML = `
+      <tr><td>मानसिक क्षमता व परिसर अभ्यास (1 ते 40)</td><td>40</td><td>${mentalCorrect}</td><td>${mentalMarks.toFixed(2)} / 50</td></tr>
+      <tr><td>अंकगणित चाचणी (41 ते 60)</td><td>20</td><td>${mathCorrect}</td><td>${mathMarks.toFixed(2)} / 25</td></tr>
+      <tr><td>भाषा चाचणी (61 ते 80)</td><td>20</td><td>${langCorrect}</td><td>${langMarks.toFixed(2)} / 25</td></tr>
+    `;
+
+    try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e) {}
+    window.scrollTo(0, 0);
+  }
+
+  function showAnswerKeyView() {
+    currentScreen = 'answerkey';
+    updateHeaderDisplay(currentQuizData ? currentQuizData.title : "उत्तरपत्रिका");
+    document.getElementById("resultCertArea").style.display = "none";
+    document.getElementById("answerKeyArea").style.display = "block";
+    displayAkSection('mental');
+  }
+
+  function backToResult() { 
+    currentScreen = 'result'; 
+    if (currentQuizData) updateHeaderDisplay(currentQuizData.title);
+    document.getElementById("answerKeyArea").style.display = "none"; 
+    document.getElementById("resultCertArea").style.display = "block"; 
+  }
+
+  function displayAkSection(secKey) {
+    akSelectedSection = secKey;
+    document.getElementById("ak-tab-sec1").className = secKey === 'mental' ? 'active' : '';
+    document.getElementById("ak-tab-sec2").className = secKey === 'math' ? 'active' : '';
+    document.getElementById("ak-tab-sec3").className = secKey === 'lang' ? 'active' : '';
+
+    const container = document.getElementById("akQuestionsHost");
+    container.innerHTML = "";
+    const filtered = currentQuizData.questions.filter(q => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+      return q.sec === secKey;
+    });
+
+    filtered.forEach(q => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question-card";
+
+      let figHtml = "";
+      if (q.problemFig) {
+        let probContent = q.problemFig.startsWith("http") || q.problemFig.startsWith("data:") ? `<img src="${q.problemFig}" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/3/3a/Visual_test_sample_2.svg';">` : q.problemFig;
+        figHtml += `<div class="fig-box" style="margin: 10px 0;">${probContent}</div>`;
+      }
+
+      let optsGrid = '<div class="options-grid">';
+      q.options.forEach((opt, idx) => {
+        let optClass = "";
+        let choiceBadge = "";
+        
+        const studentChoice = recordedChoices[q.id];
+        
+        if (idx === q.correct) {
+          optClass = "ak-correct";
+        }
+        if (studentChoice === idx) {
+          optClass += " ak-student-choice";
+          choiceBadge += ' <b style="color:var(--accent);">[तुमचे उत्तर]</b>';
+        }
+
+        let optDisplay = opt.startsWith("http") || opt.startsWith("data:") ? `<img src="${opt}" style="max-height:35px; object-fit:contain;" onerror="this.onerror=null; this.src='';">` : `<span>${opt}</span>`;
+        optsGrid += `<div class="opt-label ${optClass}">${optDisplay} ${choiceBadge}</div>`;
+      });
+      optsGrid += '</div>';
+
+      let cleanText = (q.text || "").replace(/^(प्रश्न|Question)\s*\d+[\s\.:\-\)]*/gi, "").trim();
+      if (!cleanText) cleanText = q.text || "";
+
+      qDiv.innerHTML = `
+        <div class="q-badge-box">प्रश्न ${q.id}</div>
+        <div class="q-text-content">${cleanText}</div>
+        ${figHtml}
+        ${optsGrid}
+        <div class="exp-box">💡 <b>स्पष्टीकरण:</b> ${q.exp}</div>
+      `;
+      container.appendChild(qDiv);
     });
   }
 
