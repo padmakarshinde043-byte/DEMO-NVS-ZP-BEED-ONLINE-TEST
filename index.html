@@ -73,8 +73,8 @@
       box-shadow: 0 4px 12px rgba(15, 43, 72, 0.2);
     }
     .btn-action {
-      padding: 10px 24px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; font-size: 1rem;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 8px 16px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
     .btn-start { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
     .btn-locked { background: #e2e8f0; color: #64748b; border: 1px solid #cbd5e1; cursor: not-allowed; box-shadow: none; }
@@ -88,7 +88,6 @@
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 1rem; background: #ffffff; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(26, 74, 117, 0.12); }
 
-    /* चाचणी टॅब - अधिक मोठे आणि ठळक */
     .test-item {
       border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex;
       flex-direction: column; align-items: center; text-align: center; border: 1.5px solid var(--border);
@@ -96,9 +95,8 @@
     }
     .test-item:hover { transform: translateY(-2px); }
 
-    /* प्रयत्न १ आणि प्रयत्न २ चे गुण एका बाजूला एक (Side-by-side badges) */
     .attempt-badge-container {
-      display: flex; gap: 12px; justify-content: center; align-items: center; margin: 12px 0; flex-wrap: wrap;
+      display: flex; gap: 10px; justify-content: center; align-items: center; margin: 12px 0; flex-wrap: wrap;
     }
     .badge-attempt {
       background: #ffffff; border: 1.5px solid #cbd5e1; padding: 6px 16px; border-radius: 25px; font-size: 0.95rem; font-weight: 800; color: #1e293b; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
@@ -267,7 +265,6 @@
 
       <div style="padding: 20px; max-height: 70vh; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;" id="officersStack">
         
-        <!-- मुख्य कार्यकारी अधिकारी संदेश (जितिन रहमान - p1.jpeg) -->
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #1e3a8a; padding: 15px; border-radius: 12px; display: flex; gap: 15px; align-items: center;">
           <div style="width: 80px; height: 80px; min-width: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #1e3a8a; box-shadow: 0 4px 8px rgba(0,0,0,0.15); background: #e2e8f0;">
             <img src="p1.jpeg" alt="जितिन रहमान" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
@@ -281,7 +278,6 @@
           </div>
         </div>
 
-        <!-- शिक्षणाधिकारी प्राथमिक संदेश (जयश्री चव्हाण - p2.jpeg) -->
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #16a34a; padding: 15px; border-radius: 12px; display: flex; gap: 15px; align-items: center;">
           <div style="width: 80px; height: 80px; min-width: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #16a34a; box-shadow: 0 4px 8px rgba(0,0,0,0.15); background: #e2e8f0;">
             <img src="p2.jpeg" alt="जयश्री चव्हाण" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_of_Maharashtra.png'">
@@ -446,8 +442,21 @@
       <p style="font-size:1.05rem; font-weight:700; color:#0f2b48;">आपली नवोदय सराव चाचणी यशस्वीरीत्या पूर्ण झाली आहे!</p>
     </div>
     
+    <!-- चाचणी क्रमांकाचा स्पष्ट व ठळक मोठ्या अक्षरात उल्लेख -->
+    <div id="resultTestTitleHeader" style="font-size:1.35rem; font-weight:800; color:var(--primary); margin:8px 0 4px 0;"></div>
+
     <div style="font-size:1.6rem; font-weight:800; color:var(--secondary); margin:12px 0;">
       प्राप्त गुण: <span id="cScore"></span> / 100 (<span id="cPerc"></span>%)
+    </div>
+
+    <!-- Answer Key व डॅशबोर्ड बटणे आता सर्वात वर घेतले आहेत (चित्रात दाखवल्याप्रमाणे) -->
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin:16px 0; justify-content:center;">
+      <button class="btn-action" style="background:var(--secondary); color:white;" onclick="showAnswerKeyView()">
+        📝 Answer Key (उत्तरपत्रिका) पहा
+      </button>
+      <button class="btn-action" style="background:#475569; color:white;" onclick="renderDashboard()">
+        डॅशबोर्डवर परत जा
+      </button>
     </div>
 
     <table class="report-table">
@@ -462,21 +471,12 @@
       <tbody id="cReportCardBody"></tbody>
     </table>
 
-    <!-- अभिप्राय व सुधारणा विभाग -->
+    <!-- अभिप्राय विभाग आता बटणांच्या खाली घेतला आहे -->
     <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:12px; padding:16px; margin:20px 0; text-align:left;">
       <h4 style="color:var(--primary); font-weight:800; margin-bottom:8px; font-size:1.05rem;">📝 अभिप्राय आणि आवश्यक सुधारणा (Feedback & Suggestions):</h4>
       <p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">तुम्हाला चाचणी कशी वाटली? प्रश्नांमध्ये काही सुधारणा हवी असल्यास किंवा काही अडचण आल्यास येथे नक्की लिहा.</p>
       <textarea id="studentFeedbackInput" rows="3" placeholder="तुमचा अभिप्राय किंवा सूचना येथे लिहा..." style="width:100%; padding:10px; border:1.5px solid #cbd5e1; border-radius:8px; font-size:0.95rem; margin-bottom:10px;"></textarea>
       <button class="btn-action btn-start" onclick="submitStudentFeedback()">अभिप्राय पाठवा ➔</button>
-    </div>
-    
-    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">
-      <button class="btn-main" style="background:var(--secondary); flex:1;" onclick="showAnswerKeyView()">
-        📝 Answer Key (उत्तरपत्रिका) पहा
-      </button>
-      <button class="btn-main" style="background:#475569; flex:1;" onclick="renderDashboard()">
-        डॅशबोर्डवर परत जा
-      </button>
     </div>
   </div>
 
@@ -743,7 +743,18 @@
 </footer>
 
 <script>
-  const FIREBASE_DB_URL = "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com";
+  // Firebase Configuration updated securely
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaJQasvwlIsdt84xyjLvon6-8ASJ7vjtY",
+    authDomain: "nvs-zp-beed-online-test.firebaseapp.com",
+    databaseURL: "https://nvs-zp-beed-online-test-default-rtdb.firebaseio.com",
+    projectId: "nvs-zp-beed-online-test",
+    storageBucket: "nvs-zp-beed-online-test.firebasestorage.app",
+    messagingSenderId: "840895898271",
+    appId: "1:840895898271:web:a499e8b5adcb411c7fb8aa"
+  };
+
+  const FIREBASE_DB_URL = firebaseConfig.databaseURL;
 
   const EXAM_SCHEDULE = [
     { id: 1, title: "नवोदय सराव चाचणी क्र. 01", dateISO: "2026-11-11", dateMarathi: "11 नोव्हेंबर 2026", file: "test1.json" },
@@ -1798,16 +1809,13 @@
       const card = document.createElement("div");
       card.className = "test-item " + (isAccessible ? "unlocked" : "");
       
-      // प्रत्येक चाचणी कार्डसाठी हलका आणि आकर्षक रंग
       const colorScheme = TEST_CARD_COLORS[index % TEST_CARD_COLORS.length];
       card.style.background = colorScheme.bg;
       card.style.borderColor = colorScheme.border;
 
-      // प्रयत्न १ आणि प्रयत्न २ चे गुण मिळवणे
       let attempt1Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][0] !== undefined) ? loggedInUser.attemptHistory[item.id][0] : null;
       let attempt2Score = (loggedInUser.attemptHistory && loggedInUser.attemptHistory[item.id] && loggedInUser.attemptHistory[item.id][1] !== undefined) ? loggedInUser.attemptHistory[item.id][1] : null;
 
-      // प्रयत्न १ व प्रयत्न २ चे गुण एका बाजूला एक इंग्रजी अंकात आकर्षक बॅजेसमध्ये दाखवणे
       let attemptBadgesHtml = `<div class="attempt-badge-container">`;
       if (userAttempts > 0) {
         if (attempt1Score !== null) {
@@ -1838,7 +1846,6 @@
 
       let adminToggleHtml = isAdminMode ? (isAccessible ? `<button class="btn-toggle-admin" style="background:#dc2626; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, false)">🔒 Lock</button>` : `<button class="btn-toggle-admin" style="background:#16a34a; margin-top:8px;" onclick="toggleGlobalTestStatus(${item.id}, true)">🔓 Unlock</button>`) : "";
 
-      // सर्व माहिती मध्यभागी (Center Aligned) आणि ठळक अक्षरात
       card.innerHTML = `
         <div style="width: 100%;">
           <h4 style="font-weight:800; font-size:1.2rem; color:#0f2b48; margin-bottom:6px;">${item.title}</h4>
@@ -2169,6 +2176,9 @@
     currentScreen = 'result';
     document.getElementById("testArena").style.display = "none";
     document.getElementById("resultCertArea").style.display = "block";
+    
+    // निकालाच्या स्क्रीनवर चाचणीचे नाव/क्रमांक स्पष्ट व मोठ्या ठळक अक्षरात दाखवणे
+    document.getElementById("resultTestTitleHeader").innerText = currentQuizData.title;
     document.getElementById("cScore").innerText = totalMarks;
     document.getElementById("cPerc").innerText = perc;
 
