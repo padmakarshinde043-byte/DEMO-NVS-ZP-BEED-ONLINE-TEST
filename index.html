@@ -73,8 +73,8 @@
       box-shadow: 0 4px 12px rgba(15, 43, 72, 0.2);
     }
     .btn-action {
-      padding: 8px 16px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 0.9rem;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 10px 24px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .btn-start { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
     .btn-locked { background: #e2e8f0; color: #64748b; border: 1px solid #cbd5e1; cursor: not-allowed; box-shadow: none; }
@@ -449,16 +449,6 @@
       प्राप्त गुण: <span id="cScore"></span> / 100 (<span id="cPerc"></span>%)
     </div>
 
-    <!-- Answer Key व डॅशबोर्ड बटणे आता सर्वात वर घेतले आहेत (चित्रात दाखवल्याप्रमाणे) -->
-    <div style="display:flex; flex-wrap:wrap; gap:10px; margin:16px 0; justify-content:center;">
-      <button class="btn-action" style="background:var(--secondary); color:white;" onclick="showAnswerKeyView()">
-        📝 Answer Key (उत्तरपत्रिका) पहा
-      </button>
-      <button class="btn-action" style="background:#475569; color:white;" onclick="renderDashboard()">
-        डॅशबोर्डवर परत जा
-      </button>
-    </div>
-
     <table class="report-table">
       <thead>
         <tr>
@@ -471,7 +461,17 @@
       <tbody id="cReportCardBody"></tbody>
     </table>
 
-    <!-- अभिप्राय विभाग आता बटणांच्या खाली घेतला आहे -->
+    <!-- Answer Key व डॅशबोर्ड बटणे तक्त्याच्या खाली आणि अभिप्रायच्या वर -->
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin:20px 0; justify-content:center;">
+      <button class="btn-action" style="background:var(--secondary); color:white; padding:8px 18px; font-size:0.9rem;" onclick="showAnswerKeyView()">
+        📝 Answer Key (उत्तरपत्रिका) पहा
+      </button>
+      <button class="btn-action" style="background:#475569; color:white; padding:8px 18px; font-size:0.9rem;" onclick="renderDashboard()">
+        डॅशबोर्डवर परत जा
+      </button>
+    </div>
+
+    <!-- अभिप्राय विभाग बटणांच्या खाली -->
     <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:12px; padding:16px; margin:20px 0; text-align:left;">
       <h4 style="color:var(--primary); font-weight:800; margin-bottom:8px; font-size:1.05rem;">📝 अभिप्राय आणि आवश्यक सुधारणा (Feedback & Suggestions):</h4>
       <p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">तुम्हाला चाचणी कशी वाटली? प्रश्नांमध्ये काही सुधारणा हवी असल्यास किंवा काही अडचण आल्यास येथे नक्की लिहा.</p>
@@ -743,7 +743,7 @@
 </footer>
 
 <script>
-  // Firebase Configuration updated securely
+  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCaJQasvwlIsdt84xyjLvon6-8ASJ7vjtY",
     authDomain: "nvs-zp-beed-online-test.firebaseapp.com",
@@ -1765,6 +1765,100 @@
     });
   }
 
+  function finalizeEvaluation() {
+    clearInterval(quizInterval);
+    let mentalCorrect = 0, mathCorrect = 0, langCorrect = 0;
+
+    currentQuizData.questions.forEach(q => {
+      if (q.id <= 40) q.sec = "mental";
+      else if (q.id <= 60) q.sec = "math";
+      else if (q.id <= 80) q.sec = "lang";
+
+      if (recordedChoices[q.id] === q.correct) {
+        if (q.sec === "mental") mentalCorrect++;
+        else if (q.sec === "math") mathCorrect++;
+        else if (q.sec === "lang") langCorrect++;
+      }
+    });
+
+    const mentalMarks = mentalCorrect * 1.25;
+    const mathMarks = mathCorrect * 1.25;
+    const langMarks = langCorrect * 1.25;
+    const totalMarks = mentalMarks + mathMarks + langMarks;
+    const perc = totalMarks.toFixed(1);
+
+    loggedInUser.history = loggedInUser.history || {};
+    loggedInUser.attempts = loggedInUser.attempts || {};
+    loggedInUser.attemptHistory = loggedInUser.attemptHistory || {};
+    
+    let testId = currentQuizData.id;
+    loggedInUser.attempts[testId] = (loggedInUser.attempts[testId] || 0) + 1;
+    
+    if (!loggedInUser.attemptHistory[testId]) loggedInUser.attemptHistory[testId] = [];
+    loggedInUser.attemptHistory[testId].push(totalMarks);
+
+    if (totalMarks > (loggedInUser.history[testId] || 0)) { loggedInUser.history[testId] = totalMarks; }
+    if (loggedInUser.inProgress) delete loggedInUser.inProgress[testId];
+    saveUserVault();
+
+    const resultObj = {
+      uid: loggedInUser.uid,
+      name: loggedInUser.name,
+      mobile: loggedInUser.mobile,
+      taluka: loggedInUser.taluka,
+      isTeacher: loggedInUser.isTeacher || false,
+      testId: testId,
+      testTitle: currentQuizData.title,
+      score: totalMarks,
+      percentage: perc,
+      timestamp: new Date().toLocaleString("en-IN")
+    };
+    fetch(`${FIREBASE_DB_URL}/results.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(resultObj)
+    }).catch(() => {});
+
+    currentScreen = 'result';
+    document.getElementById("testArena").style.display = "none";
+    document.getElementById("resultCertArea").style.display = "block";
+    
+    // चाचणीचे नाव स्पष्ट व मोठ्या ठळक अक्षरात दाखवणे
+    document.getElementById("resultTestTitleHeader").innerText = currentQuizData.title;
+    document.getElementById("cScore").innerText = totalMarks;
+    document.getElementById("cPerc").innerText = perc;
+
+    // एकूण प्रश्न (८०), एकूण बरोबर उत्तरे आणि एकूण गुण यांची बेरीज (Total Row) समाविष्ट करणे
+    const totalCorrect = mentalCorrect + mathCorrect + langCorrect;
+    document.getElementById("cReportCardBody").innerHTML = `
+      <tr><td>मानसिक क्षमता व परिसर अभ्यास (1 ते 40)</td><td>40</td><td>${mentalCorrect}</td><td>${mentalMarks.toFixed(2)} / 50</td></tr>
+      <tr><td>अंकगणित चाचणी (41 ते 60)</td><td>20</td><td>${mathCorrect}</td><td>${mathMarks.toFixed(2)} / 25</td></tr>
+      <tr><td>भाषा चाचणी (61 ते 80)</td><td>20</td><td>${langCorrect}</td><td>${langMarks.toFixed(2)} / 25</td></tr>
+      <tr style="background:#f1f5f9; font-weight:800;">
+        <td style="text-align:left;">एकूण (Total)</td>
+        <td>80</td>
+        <td>${totalCorrect}</td>
+        <td>${totalMarks.toFixed(2)} / 100</td>
+      </tr>
+    `;
+
+    // फुलांचा वर्षाव (Confetti) आणखी ३ सेकंद जास्त वेळ (एकूण ६ सेकंद) चालवणे
+    try {
+      let duration = 6 * 1000;
+      let animationEnd = Date.now() + duration;
+      let interval = setInterval(function() {
+        let timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        let particleCount = 50 * (timeLeft / duration);
+        confetti({ particleCount: particleCount, spread: 90, origin: { y: 0.6 } });
+      }, 250);
+    } catch(e) {}
+
+    window.scrollTo(0, 0);
+  }
+
   function renderDashboard() {
     currentScreen = 'dashboard';
     history.replaceState({ screen: 'dashboard' }, "");
@@ -2118,79 +2212,6 @@
 
   function closeSummaryModal() { currentScreen = 'exam'; document.getElementById("summaryModalOverlay").style.display = "none"; }
   function executeFinalSubmission() { document.getElementById("summaryModalOverlay").style.display = "none"; finalizeEvaluation(); }
-
-  function finalizeEvaluation() {
-    clearInterval(quizInterval);
-    let mentalCorrect = 0, mathCorrect = 0, langCorrect = 0;
-
-    currentQuizData.questions.forEach(q => {
-      if (q.id <= 40) q.sec = "mental";
-      else if (q.id <= 60) q.sec = "math";
-      else if (q.id <= 80) q.sec = "lang";
-
-      if (recordedChoices[q.id] === q.correct) {
-        if (q.sec === "mental") mentalCorrect++;
-        else if (q.sec === "math") mathCorrect++;
-        else if (q.sec === "lang") langCorrect++;
-      }
-    });
-
-    const mentalMarks = mentalCorrect * 1.25;
-    const mathMarks = mathCorrect * 1.25;
-    const langMarks = langCorrect * 1.25;
-    const totalMarks = mentalMarks + mathMarks + langMarks;
-    const perc = totalMarks.toFixed(1);
-
-    loggedInUser.history = loggedInUser.history || {};
-    loggedInUser.attempts = loggedInUser.attempts || {};
-    loggedInUser.attemptHistory = loggedInUser.attemptHistory || {};
-    
-    let testId = currentQuizData.id;
-    loggedInUser.attempts[testId] = (loggedInUser.attempts[testId] || 0) + 1;
-    
-    if (!loggedInUser.attemptHistory[testId]) loggedInUser.attemptHistory[testId] = [];
-    loggedInUser.attemptHistory[testId].push(totalMarks);
-
-    if (totalMarks > (loggedInUser.history[testId] || 0)) { loggedInUser.history[testId] = totalMarks; }
-    if (loggedInUser.inProgress) delete loggedInUser.inProgress[testId];
-    saveUserVault();
-
-    const resultObj = {
-      uid: loggedInUser.uid,
-      name: loggedInUser.name,
-      mobile: loggedInUser.mobile,
-      taluka: loggedInUser.taluka,
-      isTeacher: loggedInUser.isTeacher || false,
-      testId: testId,
-      testTitle: currentQuizData.title,
-      score: totalMarks,
-      percentage: perc,
-      timestamp: new Date().toLocaleString("en-IN")
-    };
-    fetch(`${FIREBASE_DB_URL}/results.json`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(resultObj)
-    }).catch(() => {});
-
-    currentScreen = 'result';
-    document.getElementById("testArena").style.display = "none";
-    document.getElementById("resultCertArea").style.display = "block";
-    
-    // निकालाच्या स्क्रीनवर चाचणीचे नाव/क्रमांक स्पष्ट व मोठ्या ठळक अक्षरात दाखवणे
-    document.getElementById("resultTestTitleHeader").innerText = currentQuizData.title;
-    document.getElementById("cScore").innerText = totalMarks;
-    document.getElementById("cPerc").innerText = perc;
-
-    document.getElementById("cReportCardBody").innerHTML = `
-      <tr><td>मानसिक क्षमता व परिसर अभ्यास (1 ते 40)</td><td>40</td><td>${mentalCorrect}</td><td>${mentalMarks.toFixed(2)} / 50</td></tr>
-      <tr><td>अंकगणित चाचणी (41 ते 60)</td><td>20</td><td>${mathCorrect}</td><td>${mathMarks.toFixed(2)} / 25</td></tr>
-      <tr><td>भाषा चाचणी (61 ते 80)</td><td>20</td><td>${langCorrect}</td><td>${langMarks.toFixed(2)} / 25</td></tr>
-    `;
-
-    try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e) {}
-    window.scrollTo(0, 0);
-  }
 
   function showAnswerKeyView() {
     currentScreen = 'answerkey';
